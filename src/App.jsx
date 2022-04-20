@@ -34,6 +34,7 @@ import LanguageDetails from './views/LanguageDetails';
 import TaxTermDetails from './views/TaxTermDetails';
 import WorkAuthorizationDetails from './views/WorkAuthorizationDetails';
 import DegreeDetails from './views/DegreeDetails';
+import SendEmailCandidates from './views/sendEmailCandidates';
 const cookies = new Cookies();
 const App = () => {
   let authetication = false;
@@ -98,7 +99,7 @@ const App = () => {
             <Route path="/admin/taxTermsListing" element={<AdminLayout comp={<TaxTermDetails />} />} />
             <Route path="/admin/WorkAuthorizationDetails" element={<AdminLayout comp={<WorkAuthorizationDetails />} />} />
             <Route path="/admin/degreeListing" element={<AdminLayout comp={<DegreeDetails />} />} />
-
+            <Route path="/sendEmailCandidates" element={<AdminLayout comp={<SendEmailCandidates/>}/>} /> 
             
             
             <Route path="/admin/manageJobs" element={<AdminLayout comp={<JobManagement />} />} />

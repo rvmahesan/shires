@@ -95,11 +95,17 @@ class CreateNewJob extends Component {
             statesList: [],//axios.get(apiUrl+"getAllStatesList"),
             countriesList: [],//axios.get(apiUrl+"getAllCountriesList"),
             clientsList:[],
-            sess_id:cookies.get("c_csrftoken")
+            industryList:[],
+            langaugeList:[],
+            sess_id:cookies.get("c_csrftoken"),
+            selectUsersList:[],
+            taxTerms:[],
+            departments:[],
 
         }
         this.jobRequiredDocumentsList = [{ "name": "Driving License" }, { "name": "EML File" }, { "name": "Passport" }, { "name": "Resume" }, { "name": "SSN" }, { "name": "Transcripts" }];
-
+        this.industryList = [];this.langaugeList=[];this.degreeList = [];
+        this.usersList = [];
         this.genderOptions = ["Select gender", "Male", "Female", "Others"];
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -114,6 +120,78 @@ class CreateNewJob extends Component {
     
     componentDidMount() {
         // axios.get(apiUrl+"getAllStatesList")
+       
+        axios.get(apiUrl + "getAllConfigLists",{//3
+            params: {
+                sess_id: this.state.sess_id,
+                configType:"taxterms"
+            }
+        }).then(({data})=>{
+            let taxTermsTmp = [];
+            if(data.statusResponse===true)
+                data.list.map((det)=>{
+                    taxTermsTmp.append({"name":det.ConfigName})
+                });
+            console.log(taxTermsTmp)
+           // this.setState({taxTerms:taxTermsTmp})
+        });
+        axios.get(apiUrl + "getAllConfigLists",{//3
+            params: {
+                sess_id: this.state.sess_id,
+                configType:"department"
+            }
+        }).then(({data})=>{
+            if(data.statusResponse===true)
+                data.list.map((det)=>{
+                 //   this.departments.push({"name":det.ConfigName})
+                });
+        });
+
+        const thisObj = this;
+        axios.get(apiUrl + "getSelectUsersList",{//3
+            params: {
+                sess_id: this.state.sess_id
+            }
+        }).then(({data})=>{
+         
+          
+            if(data.statusResponse===true)
+            {
+                var userListTmp = [];
+                data.data.map((det)=>{
+                    userListTmp.push({"pk":det.pk,"firstName":det.fields.firstName,"lastName":det.fields.lastName,"email":det.fields.email})
+                });
+            }
+            thisObj.setState({selectUsersList:userListTmp});
+
+         
+
+        });
+        axios.get(apiUrl + "getAllConfigLists",{params:{sess_id:this.state.sess_id,configType:"language"}})
+        .then(({ data }) => {
+            if(data.statusResponse===true)
+                data.list.map((det)=>{
+                    this.langaugeList.push({"name":det.ConfigName})
+                });
+        })
+        .catch((err) => { });
+        axios.get(apiUrl + "getAllConfigLists",{params:{sess_id:this.state.sess_id,configType:"degree"}})
+        .then(({ data }) => {
+            if(data.statusResponse===true)
+                data.list.map((det)=>{
+                    this.degreeList.push({"name":det.ConfigName})
+                });
+        })
+        .catch((err) => { });
+        axios.get(apiUrl + "getAllConfigLists",{params:{sess_id:this.state.sess_id,configType:"industry"}})
+            .then(({ data }) => {
+                if(data.statusResponse===true)
+                    data.list.map((det)=>{
+                        this.industryList.push({"name":det.ConfigName})
+                    });
+            })
+            .catch((err) => { });
+          
         axios.get(apiUrl + "getAllStatesList")
             .then(({ data }) => {
                 this.setState({ statesList: data })
@@ -160,6 +238,28 @@ class CreateNewJob extends Component {
             });
         }
     };
+
+
+    onSelectIndustryList(selectedList, selectedItem) {
+        let sts = []
+        for (var i = 0; i < selectedList.length; i++) {
+            sts[i] = (selectedList[i].name);
+        }
+        let sts_ = sts.join(", ");
+        this.state.industryList = sts_;
+    }
+    onRemoveIndustryList(selectedList, selectedItem) {
+        let sts = []
+        for (var i = 0; i < selectedList.length; i++) {
+            sts[i] = (selectedList[i].name);
+        }
+        let sts_ = sts.join(", ");
+        this.state.industryList = sts_;
+    }
+
+
+
+
     onSelectRequiredDocList(selectedList, selectedItem) {
         let sts = []
         for (var i = 0; i < selectedList.length; i++) {
@@ -269,8 +369,8 @@ class CreateNewJob extends Component {
                                                         <option value="USD">USD</option>
                                                     </select>
 
-                                                    <input type="number" autoComplete="new" className="form-control gray-bg ml-1 form-control-sm col-sm-2" required name="payRateMinValue" placeholder="Min" defaultValue={this.state.clientBillRate} autoComplete="new" onChange={this.handleInput} />
-                                                    <input type="number" autoComplete="new" placeholder="Max" className="form-control gray-bg ml-1 form-control-sm col-sm-2" required name="payRateMaxValue" defaultValue={this.state.clientBillRate} autoComplete="new" onChange={this.handleInput} />
+                                                    <input type="number" autoComplete="new" className="form-control gray-bg ml-1 form-control-sm col-sm-2" required name="payRateMinValue" placeholder="Min" defaultValue={this.state.clientBillRate} onChange={this.handleInput} />
+                                                    <input type="number"  placeholder="Max" className="form-control gray-bg ml-1 form-control-sm col-sm-2" required name="payRateMaxValue" defaultValue={this.state.clientBillRate}  onChange={this.handleInput} />
 
 
                                                     <select className="input-group-select gray-bg form-control-select form-control-sm ml-2 col-sm-3" name="payRateFrequency" onChange={(e) => { this.setState({ payRateFrequency: e.target.value }) }}>
@@ -312,8 +412,8 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Country</label>
                                                 <select className="form-control form-control-select gray-bg" name="country" onChange={(e) => { this.setState({ country: e.target.value }) }}>
                                                     <option value="">select</option>
-                                                    {this.state.countriesList.map(function(data){
-                                                        return <option value={data.id}>{data.name}</option>
+                                                    {this.state.countriesList.map(function(data,index){
+                                                        return <option key={index} value={data.id}>{data.name}</option>
                                                     })}
                                                 </select>
                                             </div>
@@ -394,10 +494,10 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Remote Job<span className="text-danger pl-1">*</span></label>
                                                 <div className="row pl-3">
                                                     <div className="form-check form-check-inline">
-                                                        <input name="isRemoteJob" id="radio1" type="radio" className="form-check-input" onChange={this.handleInput} value="True" /> <label className="form-check-label form-label" for="radio1">Yes</label>
+                                                        <input name="isRemoteJob" id="radio1" type="radio" className="form-check-input" onChange={this.handleInput} value="True" /> <label className="form-check-label form-label" htmlFor="radio1">Yes</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input name="isRemoteJob" type="radio" id="radio2" checked className="form-check-input" value="False" onChange={this.handleInput} /> <label className="form-check-label form-label" for="radio2" >No</label>
+                                                        <input name="isRemoteJob" type="radio" id="radio2" checked className="form-check-input" value="False" onChange={this.handleInput} /> <label className="form-check-label form-label" htmlFor="radio2" >No</label>
                                                     </div>
                                                 </div>
 
@@ -421,7 +521,7 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Job Status<span className="text-danger pl-1">*</span></label>
                                                 <select className="form-control float-left gray-bg" name="jobStatus" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="Active" selected>Active</option>
+                                                    <option value="Active" >Active</option>
                                                     <option value="Closed">Closed</option>
                                                     <option value="Filled">Filled</option>
                                                     <option value="Hold by Client">Hold by Client</option>
@@ -433,8 +533,8 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Client<span className="text-danger pl-1">*</span></label>
                                                 <select name="jobClient" className="form-control gray-bg" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    {this.state.clientsList.map(function(data){
-                                                        return <option value={data.id}>{data.clientName}</option>
+                                                    {this.state.clientsList.map(function(data,key){
+                                                        return <option value={data.id} key={key}>{data.clientName}</option>
                                                     })}
                                                 </select>
                                             </div>
@@ -477,7 +577,7 @@ class CreateNewJob extends Component {
                                                         <option value="USD">USD</option>
                                                     </select>
 
-                                                    <input type="number" autoComplete="new" className="form-control ml-2 gray-bg form-control-sm col-sm-3" required name="clientBillRateValue" defaultValue={this.state.clientBillRate} autoComplete="new" onChange={this.handleInput} />
+                                                    <input type="number" autoComplete="new" className="form-control ml-2 gray-bg form-control-sm col-sm-3" required name="clientBillRateValue" defaultValue={this.state.clientBillRate}  onChange={this.handleInput} />
 
                                                     <select className="input-group-select form-control-select gray-bg form-control-select form-control-sm ml-2 col-sm-3" name="clientBillRateFrequency" onChange={this.handleInput}>
                                                         <option value="">select</option>
@@ -517,7 +617,7 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Expenses Paid<span className="text-danger pl-1">*</span></label>
 
                                                 <select className="form-control form-control-select gray-bg" name="jobExpensesPaid" onChange={this.handleInput}>
-                                                    <option value="" selected>select</option>
+                                                    <option value="" >select</option>
                                                     <option value="Yes">Yes</option>
                                                     <option value="No" >No</option>
                                                 </select>
@@ -596,15 +696,15 @@ class CreateNewJob extends Component {
                                         <div className="col-sm-3 pl-0 mr-3 float-left">
                                             <div className="form-group mb-2 ">
                                                 <label className="control-label job-label">Industry</label>
-                                                <Multiselect className="form-control-sm"
-                                                    options={this.jobRequiredDocumentsList} // Options to display in the dropdown
+                                                <Multiselect className="form-control-sm w-100"
+                                                    options={this.industryList} // Options to display in the dropdown
                                                     //selectedValues={this.state.selectedStates} // Preselected value to persist in dropdown
-                                                    onSelect={this.onSelectRequiredDocList} // Function will trigger on select event
-                                                    onRemove={this.onRemoveRequiredDocList} // Function will trigger on remove event
+                                                    onSelect={this.onSelectIndustryList} // Function will trigger on select event
+                                                    onRemove={this.onRemoveIndustryList} // Function will trigger on remove event
                                                     displayValue="name" // Property name to display in the dropdown options
                                                     name="skillsIndustry"
                                                     showCheckbox="true"
-                                                    placeholder="Select" className=" gray-bg"
+                                                    placeholder="Select" 
                                                 />
                                             </div>
 
@@ -616,10 +716,10 @@ class CreateNewJob extends Component {
                                             <div className="form-group mb-2 ">
                                                 <label className="control-label job-label">Languages</label>
                                                 <Multiselect className="form-control-sm"
-                                                    options={this.jobRequiredDocumentsList} // Options to display in the dropdown
+                                                    options={this.langaugeList} // Options to display in the dropdown
                                                     //selectedValues={this.state.selectedStates} // Preselected value to persist in dropdown
-                                                    onSelect={this.onSelectRequiredDocList} // Function will trigger on select event
-                                                    onRemove={this.onRemoveRequiredDocList} // Function will trigger on remove event
+                                                    onSelect={this.onSelectLanguageList} // Function will trigger on select event
+                                                    onRemove={this.onRemoveLanguageList} // Function will trigger on remove event
                                                     displayValue="name" // Property name to display in the dropdown options
                                                     name="skillsLanguage"
                                                     showCheckbox="true"
@@ -631,13 +731,13 @@ class CreateNewJob extends Component {
 
 
                                         <div className="col-sm-4 ml-5 float-left">
-                                            <div className="form-group mb-2 skillsDegree">
+                                            <div className="form-group mb-2 skillsDegree">{this.degreeList}
                                                 <label className="control-label job-label">Degree</label>
                                                 <Multiselect className="form-control-sm"
-                                                    options={this.jobRequiredDocumentsList} // Options to display in the dropdown
+                                                    options={this.degreeList} // Options to display in the dropdown
                                                     //selectedValues={this.state.selectedStates} // Preselected value to persist in dropdown
-                                                    onSelect={this.onSelectRequiredDocList} // Function will trigger on select event
-                                                    onRemove={this.onRemoveRequiredDocList} // Function will trigger on remove event
+                                                    onSelect={this.onSelectDegreeList} // Function will trigger on select event
+                                                    onRemove={this.onRemoveDegreeList} // Function will trigger on remove event
                                                     displayValue="name" // Property name to display in the dropdown options
                                                     name="skillsDegree"
                                                     showCheckbox="true"
@@ -689,7 +789,9 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Sales Manager</label>
                                                 <select className="form-control gray-bg" name="orgInfoSalesManager" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="manager1">manager1</option>
+                                                    {this.state.selectUsersList.length!==0?this.state.selectUsersList.map((data)=>{
+                                                        return <option value={data.pk}>{data.firstName} {data.lastName} ({data.email})</option>
+                                                    }):""}
                                                 </select>
                                             </div>
 
@@ -697,7 +799,9 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Account Manager<span className="text-danger pl-1">*</span></label>
                                                 <select className="form-control gray-bg" name="orgInfoAccountManager" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="user 1">User 1</option>
+                                                    {this.state.selectUsersList.length!==0?this.state.selectUsersList.map((data)=>{
+                                                        return <option value={data.pk}>{data.firstName} {data.lastName} ({data.email})</option>
+                                                    }):""}
                                                 </select>
                                             </div>
 
@@ -719,7 +823,7 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Department</label>
                                                 <select className="form-control gray-bg" name="orgInfoDepartment" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="">User 1</option>
+                                                   
                                                 </select>
                                             </div>
 
@@ -727,7 +831,9 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Assigned To</label>
                                                 <select className="form-control gray-bg" name="orgInfoAssignedTo" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="">User 1</option>
+                                                    {this.state.selectUsersList.length!==0?this.state.selectUsersList.map((data)=>{
+                                                        return <option value={data.pk}>{data.firstName} {data.lastName} ({data.email})</option>
+                                                    }):""}
                                                 </select>
                                             </div>
 
@@ -749,10 +855,10 @@ class CreateNewJob extends Component {
 
 
                                         <div className="col-sm-4 pl-0  float-right">
-                                            <div className="form-group mb-2 ">
+                                            <div className="form-group mb-2 ">{this.state.taxTerms}
                                                 <label className="control-label job-label">Tax Terms</label>
                                                 <Multiselect className="form-control-sm"
-                                                    options={this.jobRequiredDocumentsList} // Options to display in the dropdown
+                                                    options={this.state.taxTerms} // Options to display in the dropdown
                                                     //selectedValues={this.state.selectedStates} // Preselected value to persist in dropdown
                                                     onSelect={this.onSelectRequiredDocList} // Function will trigger on select event
                                                     onRemove={this.onRemoveRequiredDocList} // Function will trigger on remove event
@@ -767,7 +873,9 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Recruitment Manager<span className="text-danger pl-1">*</span></label>
                                                 <select className="form-control gray-bg" name="orgInfoRecruitmentManager" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="User">User 1</option>
+                                                    {this.state.selectUsersList.length!==0?this.state.selectUsersList.map((data)=>{
+                                                        return <option value={data.pk}>{data.firstName} {data.lastName} ({data.email})</option>
+                                                    }):""}
                                                 </select>
                                             </div>
 
@@ -776,7 +884,9 @@ class CreateNewJob extends Component {
                                                 <label className="control-label job-label">Primary Recruiter</label>
                                                 <select className="form-control gray-bg" name="orgInfoPrimaryRecruiter" onChange={this.handleInput}>
                                                     <option value="">select</option>
-                                                    <option value="">User 1</option>
+                                                    {this.state.selectUsersList.length!==0?this.state.selectUsersList.map((data)=>{
+                                                        return <option value={data.pk}>{data.firstName} {data.lastName} ({data.email})</option>
+                                                    }):""}
                                                 </select>
                                             </div>
 

@@ -449,7 +449,6 @@ class Candidates extends Component {
                         </li>
                         <li className="page-item">
                           {(this.state.nextLink != null) ? <a href={"#" + (this.state.pageNumber + 1)} onClick={this.loadNext} className="page-link "><i className="typcn typcn-chevron-right-outline "></i><span className="sr-only">Next</span></a> : ""}
-
                         </li>
                       </ul> : ""}
                     </td>

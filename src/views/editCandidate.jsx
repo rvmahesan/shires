@@ -437,8 +437,7 @@ class EditCandidate extends Component {
                candidateDetails: candDets, selectedUserId: selectedUserId
             });
             if(this.state.candidateDetails.country !== "" && this.state.candidateDetails.email.trim() !== ""){
-              
-               axios.get(apiUrl + "getAllStatesList",{ params: {  sess_id: this.state.sess_id,countryId:this.state.candidateDetails.country } })
+               axios.get(apiUrl + "getAllStatesList",{ params: {  sess_id: this.state.sess_id,countryId:isNaN(this.state.candidateDetails.country)?0:this.state.candidateDetails.country } })
                .then(( response ) => {
                   this.setState({ statesList: response.data })
                })
@@ -905,7 +904,7 @@ class EditCandidate extends Component {
                                           <span className="input-group-text"><i className="fas fa-globe"></i></span>
                                        </div>
                                        {/* <input placeholder="Country" type="text" className="form-control" name="country" defaultValue={this.state.candidateDetails.country} onChange={(e) => { this.state.candidateDetails.country = e.target.value }} /> */}
-                                       <select className="form-control " value={this.state.candidateDetails.country} name="country" onChange={this.handleCountry}>
+                                       <select className="form-control " value={this.state.candidateDetails.country} name={"candidateDetails.country"} onChange={this.handleCountry}>
                                                     <option value="">select</option>
                                                     {this.state.countriesList.map((country) => {
                                                         return <option value={country.id}>{country.name}</option>
@@ -933,7 +932,7 @@ class EditCandidate extends Component {
                                        <div className="input-group-prepend">
                                           <span className="input-group-text"><i className="fas fa-address-book"></i></span>
                                        </div>
-                                       <select name="state" className="form-control float-left gray-bg" value={this.state.candidateDetails.state} onBlur={this.handleInput}>
+                                       <select name={"candidateDetails.state"} className="form-control float-left gray-bg" value={this.state.candidateDetails.state} onChange={this.handleInput}>
                                                     <option value="">select</option>
                                                     {this.state.statesList.map((state) => {
                                                         return <option value={state.id}>{state.name}</option>
@@ -1434,19 +1433,19 @@ class EditCandidate extends Component {
    }
 
    handleCountry(event) {
-      let stateId = event.target.value;
-      if(stateId === "")
+      let countryId = event.target.value;
+      
+     this.handleInput(event);
+      if(countryId === "")
          return;
       document.body.style.cursor = 'wait';
-      axios.get(apiUrl + "getAllStatesList",{ params: {  sess_id: this.state.sess_id,countryId:stateId } })
+      axios.get(apiUrl + "getAllStatesList",{ params: {  sess_id: this.state.sess_id,countryId:countryId } })
       .then(( response ) => {
           this.setState({ statesList: response.data })
         //  console.log(response.data)
       })
-      .catch((err) => { })
-      this.setState({
-         [event.target.name]: event.target.value
-     }); 
+      .catch((err) => { });
+
    document.body.style.cursor = 'default';
   }
 
@@ -1587,7 +1586,6 @@ class EditCandidate extends Component {
          if (ptTimer <= 60)
             thisObj.setState({ progressTimer: ptTimer });
       }, 100);
-      
       axios.put(candidateUpdateUrl, {
          firstName: this.state.candidateDetails.firstName,
          lastName: this.state.candidateDetails.lastName,
@@ -1609,9 +1607,9 @@ class EditCandidate extends Component {
          jobTitle: this.state.candidateDetails.jobTitle,
          address: this.state.candidateDetails.address,
 
-         country: this.state.country,
+         country: this.state.candidateDetails.country,
          zipcode: this.state.candidateDetails.zipcode,
-         state: this.state.state,
+         state: this.state.candidateDetails.state,
          applicantStatus: this.state.candidateDetails.applicantStatus,
 
          aboutMe: this.state.candidateDetails.aboutMe,

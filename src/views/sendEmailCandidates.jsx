@@ -19,8 +19,8 @@ const axios = require("axios").default;
 const cookies = new Cookies();
 
 let fileUrl = "";
-
-class SearchProfiles extends Component {
+const params = new URLSearchParams(window.location.search);
+class SendEmailCandidates extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -92,13 +92,14 @@ class SearchProfiles extends Component {
 
   componentDidMount() {
     this.setState({ loading: false });
-    let currPageNumber = (window.location.hash) ? window.location.hash.substring(1) : 1;
-    if (currPageNumber === "") { currPageNumber = 1 }
-    this.setState({ profiles: [], pageNumber: currPageNumber });
+    let pageId = params.get("pageId");
 
-    axios.get(apiUrl + "getAllCountriesList",{ params:{ sess_id: this.state.sess_id } })
+    //this.setState({ profiles: [], pageNumber: currPageNumber });
+
+    axios.get(apiUrl + "getEmailList",{ params:{ sess_id: this.state.sess_id, pageId:pageId } })
     .then(({ data }) => {
-        this.setState({ countriesList: data,statesList:[],state:"" })
+        console.log(data)
+        //this.setState({ countriesList: data,statesList:[],state:"" })
     })
     .catch((err) => { })
   }
@@ -185,11 +186,11 @@ class SearchProfiles extends Component {
     if(e.target.value=="sendEmail"){
       let frmPrf = new FormData();
       frmPrf.append("selectedProfiles",this.state.selectedProfiles);
+
       axios.post(apiUrl+"sendEmailCandidate",frmPrf).then((data)=>{
-        data = data.data;
+        alert(data);
         if(data.statusResponse){
-          window.location.href = "../sendEmailCandidates?pageId="+data.pageId;
-          return;
+          window.location.href = "../sendEmailCandidates/"+data.pageId
         }
       });
     }else if(e.target.value="sendJob"){
@@ -295,7 +296,7 @@ class SearchProfiles extends Component {
           <div className="page-title-box">
             <div className="row pl-2">
               <div className="col ">
-                <h4 className="page-title ">Search Profiles</h4>
+                <h4 className="page-title ">Send Email</h4>
               </div>
             </div>
           </div>
@@ -313,49 +314,30 @@ class SearchProfiles extends Component {
           <div className="col p-0">
             <Card>
               <div className="row p-3">
-                <div className="col-sm-6">
+                <div className="col-sm-4">
                   <div className="form-group" >
-                    <label className="control-label text-bold pl-1">KEYWORDS</label>
+                    <label className="control-label text-bold pl-1">From Email</label>
                     <input placeholder="Applicants Search keywords" type="text" className="form-control gray-bg" name="keywords" onKeyPress={this.handleKeyPress.bind(this)} autoComplete="new" onChange={this.handleInput} />
                   </div>
                 </div>
                 <div className="col-sm-6">
                   <div className="form-group" >
-                    <label className="control-label text-bold pl-1">JOB TITLE</label>
+                    <label className="control-label text-bold pl-1">Subject</label>
                     <input placeholder="Devops Engineer" type="text" className="form-control gray-bg" name="jobTitle" onKeyPress={this.handleKeyPress.bind(this)} autoComplete="new" onChange={this.handleInput} />
                   </div>
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-12">
                   <div className="form-group" >
-                    <label className="control-label text-bold pl-1">COUNTRY</label>
-                    <select className="form-control gray-bg" name="country" onChange={this.handleInput}>
-                      <option value="">select</option>
-                      {this.state.countriesList.map((data,index)=>{
-                        return <option value={data.id} key={index}>{data.name}</option>;
-                      })}
-                    </select>
+                    <label className="control-label text-bold pl-1">Users</label>
+                 
+                    
                   </div>
                 </div>
-                <div className="col-sm-4">
-                  <div className="form-group" >
-                    <label className="control-label text-bold pl-1">STATE</label>
-                    <select className="form-control gray-bg" name="state" value={this.state.state} onChange={this.handleInput}>
-                      <option value="">select</option>
-                      {this.state.statesList.map((data,index)=>{
-                        return <option value={data.id} key={index}>{data.name}</option>;
-                      })}
-                    </select>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <div className="form-group" >
-                    <label className="control-label text-bold pl-1">CITY</label>
-                    <input placeholder="City" type="text" className="form-control gray-bg" name="city" onKeyPress={this.handleKeyPress.bind(this)} autoComplete="new" onChange={this.handleInput} />
-                  </div>
-                </div>
+               
+              
                 <div className="col-md-12 ">
                   <div className="col-md-1 pl-0 float-left">
-                    <button type="button" onClick={this.handleSearch} className="mt-2 btn-fill pull-left btn btn-primary"><i className="fas fa-search"></i> SEARCH</button>
+                    <button type="button" onClick={this.handleSearch} className="mt-2 btn-fill pull-left btn btn-primary"><i className="fas fa-envelope"></i> Send</button>
                   </div>
                   <div className="col-md-4 pl-0 float-left mt-2 pl-0 ">
                     <a onClick={this.handleSearch} className="pull-left link-btn"> Advanced search options</a>
@@ -387,4 +369,4 @@ class SearchProfiles extends Component {
     }
   }
 }
-export default SearchProfiles;
+export default SendEmailCandidates;

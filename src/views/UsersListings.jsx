@@ -19,7 +19,7 @@ const cookies = new Cookies();
 class UsersListings extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {allRoleslist:[], allUsersList: [],allTeamsList: [], usersList: [], numberOfUsers: 0, showCreateUserModal: false, showUpdateUserModal:false,
+    this.state = { nextUrl:"",previousUrl:"", allRoleslist:[], allUsersList: [],allTeamsList: [], usersList: [], numberOfUsers: 0, showCreateUserModal: false, showUpdateUserModal:false,
       firstName: "", 
       lastName: "",
       email: "", 
@@ -41,6 +41,22 @@ class UsersListings extends Component {
     this.handleActivate = this.handleActivate.bind(this);
     this.setConfigData = this.setConfigData.bind(this);
     this.resetForm = this.resetForm.bind(this);
+    this.loadNext = this.loadNext.bind(this);
+    this.loadPrevious = this.loadPrevious.bind(this);
+  }
+  loadNext = ()=>{
+    axios.get(this.state.nextUrl,{params:{ sess_id:cookies.get("c_csrftoken")}})
+    .then(({ data }) => {
+      this.setState({ usersList: data.results, numberOfUsers: data.count,nextUrl:data.next ,previousUrl:data.previous });
+    })
+    .catch((err) => { })
+  }
+  loadPrevious = ()=>{
+    axios.get(this.state.previousUrl,{params:{ sess_id:cookies.get("c_csrftoken")}})
+    .then(({ data }) => {
+      this.setState({ usersList: data.results, numberOfUsers: data.count,nextUrl:data.next ,previousUrl:data.previous });
+    })
+    .catch((err) => { })
   }
   handleInput = (e) => {
     this.setState({[e.target.name]: e.target.value });
@@ -233,6 +249,8 @@ class UsersListings extends Component {
                window.location.reload();
 
             });
+          }else{
+            Swal.fire('Alert',data.message,'error');
           }
         }).catch(function (err) {
           console.log(err);
@@ -296,7 +314,8 @@ class UsersListings extends Component {
   loadUsersList() {
     axios.get(serverAPI + "getAllUsers",{params:{ sess_id:cookies.get("c_csrftoken")}})
       .then(({ data }) => {
-        this.setState({ usersList: data.results, numberOfUsers: data.count });
+
+        this.setState({ usersList: data.results, numberOfUsers: data.count,nextUrl:data.next,previousUrl:data.previous});
       })
       .catch((err) => { })
   }
@@ -386,21 +405,26 @@ class UsersListings extends Component {
                 {this.state.usersList.map(function (obj, index) {
                   var idValue = obj.userId;
                   return <tr key={index}><td>{obj.firstName} {obj.lastName}</td><td>{obj.company}</td><td>{obj.userName}</td><td>{obj.email}</td><td> <a title="View/Update" onClick={(e) => thisObj.showUpdateForm(e, obj.userId)} className="btn btn-icon-only btn-sm rounded-circle mr-0" ><i className="fa text-info fa-18 fa-eye"></i></a> 
-                  <a className="ml-0 btn btn-sm btn-icon-only rounded-circle" onClick={(e) => thisObj.handleActivate(e, obj.userId)} ><i className="fa fa-18 text-yellow fa-pen"></i></a>
+                  <a className="ml-0 btn btn-sm btn-icon-only rounded-circle" onClick={(e) => thisObj.showUpdateForm(e, obj.userId)} ><i className="fa fa-18 text-yellow fa-pen"></i></a>
                    <a className="ml-0 btn btn-sm btn-icon-only rounded-circle" onClick={(e) => thisObj.handleDelete(e, obj.userId)} ><i className="fa text-danger fa-trash fa-18"></i></a>  </td></tr>;
                 })}
               </tbody>
-              {this.state.usersList.length != 0 ? (
+         
+              {this.state.numberOfUsers !=0 ? (
                 <tfoot>
                   <tr>
-                    <td colSpan="4">Number of Users : {this.state.numberOfUsers}</td>
-                  </tr>
-                  {(this.state.numberOfCandidates >= 20) ? <tr><td colSpan="4"><ul className="justify-content-end mb-0 pagination">
+                    <td colSpan="3">Number of Users : {this.state.numberOfUsers}</td>
+                 
+                  {(this.state.numberOfUsers >= 20) ?
+                    <td colSpan="2"><ul className="justify-content-end mb-0 pagination">
                     <li className="page-item">
-                      {this.state.pageNumber >= 1 ? <a href={"#" + (this.state.pageNumber - 1)} onClick={this.loadPrevious} className="page-link"><i className="ni ni-bold-left"></i><span className="sr-only">Previous</span></a> : ""}
+                    
+                      {this.state.previousUrl !== null ? <a className="page-link"  onClick={this.loadPrevious}><i className="typcn  typcn-chevron-left-outline "></i><span className="sr-only">Previous</span></a> : ""}
+
                     </li>
                     <li className="page-item">
-                      {((this.state.pageSize * (this.state.pageNumber + 1)) < (this.state.numberOfUsers)) ? <a href={"#" + (this.state.pageNumber + 1)} onClick={this.loadNext} className="page-link"><i class="ni ni-bold-right"></i><span className="sr-only">Next</span></a> : <a aria-disabled={true} className="page-link"><i className="ni ni-bold-right"></i><span className="sr-only">Next</span></a>}</li></ul></td></tr> : null}</tfoot>) : null}
+                      {this.state.nextUrl !== null ? <a  onClick={this.loadNext} className="page-link"><i className="typcn  typcn-chevron-right-outline "></i><span className="sr-only">Next</span></a> : ""}</li></ul></td> : null}</tr></tfoot>) : null}
+                      
             </Table>
           </Card>
         </div></Row><Modal isOpen={this.state.showCreateUserModal} className="modal-lg">
