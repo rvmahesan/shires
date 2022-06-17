@@ -7,10 +7,10 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import { style, logourl } from "../variables/Variables.jsx";
 import routes from "../routes.js";
 import Cookies from 'universal-cookie';
-import userImage from "../assets/images/brand-logo/blue.png";
+import userImage from "../assets/images/loginImg.png";
 import { browserHistory } from 'react-router';
 import AdminFooter from "../components/Footer/Footer.jsx";
-import image from "../assets/images/brand-logo/blue.png";
+import image from "../assets/images/loginImg.png";
 import { Container } from "reactstrap";
 import classNames from "classnames";
 const axios = require("axios").default;
@@ -130,8 +130,6 @@ class Admin extends Component {
 
               {this.props.comp}
               {/*<Switch>{this.getRoutes(routes)} <Redirect from="*" to="/admin/dashboard" /></Switch>*/}
-
-
               <Container fluid className={classNames("content", { "is-open": this.state.toggleSidebar })} />
             </div>
           </div>

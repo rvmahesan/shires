@@ -10,8 +10,8 @@ import {
   Media,
 } from "reactstrap";
 import Cookies from 'universal-cookie';
-import brandImg from "../../assets/images/brand-logo/canvendor.fca635db.png";
-import user5 from "../../assets/images/users/user-5.jpg";
+import brandImg from "../../assets/images/leftLogo_3.png";
+import user5 from "../../assets/images/loginImg.png";
 
 
 const cookies = new Cookies();
@@ -73,7 +73,7 @@ class AdminNavbar extends React.Component {
 
           <nav className="w-100 navbar-custom navbar-custom-menu navbar navbar-expand-md navbar-light bg-light">
             <div className="navbar-brand">
-              <div className="brand mr-3 pl-3 d-sm-none d-md-block d-none d-sm-block" style={{ backgroundColor: "#f1f5fa" }}>
+              <div className="brand mr-3 pl-3 d-sm-none d-md-block d-none d-sm-block" style={{ backgroundColor: "transparent" }}>
                 <Link to="../admin/dashboard" className="logo">
                   <span>
                     <img src={brandImg} className="logo-sm" />
@@ -100,7 +100,7 @@ class AdminNavbar extends React.Component {
                             to={prop.layout + prop.path}
                             className={(navData) => (navData.isActive ? "active-style" : 'none')}
                             activeclassname="active">
-                            <span dangerouslySetInnerHTML={{ __html: prop.svgCode + " " + prop.name }}>
+                            <span dangerouslySetInnerHTML={{ __html: prop.svgCode + "<span class='menu-text'>" + prop.name+"</span>" }}>
                             </span>
                           </NavLink>
                           {prop.submenu.length>=1?

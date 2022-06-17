@@ -22,7 +22,7 @@ File: Leftbar
 }
 
 .bg-light {
-  background-color: #f1f5fa!important;
+  background-color: #5a87ba!important;
 }
 .left-sidenav {
   min-width: 220px;
@@ -637,7 +637,8 @@ File: Horizontal-nav
 }
 
 .navbar-custom-menu .has-submenu.active a span {
-  background-color: rgba(23, 97, 253, 0.1);
+  background-color: rgb(65 68 75);
+  color: #f1f5fa;
 }
 
 .navbar-custom-menu .has-submenu.active .submenu li.active > a {
@@ -806,7 +807,7 @@ File: Horizontal-nav
   .topbar .navigation-menu > li > a {
     display: flex;
     align-items: center;
-    color: #0b1c47;
+    color: #f1f5fa;
     min-height: 52px;
   }
   .topbar .navigation-menu > li > a span {
@@ -833,10 +834,10 @@ File: Horizontal-nav
     margin-right: 10px;
   }
   .topbar .navigation-menu > li:hover a {
-    color: #2f6bf9;
+    color:white;
   }
   .topbar .navigation-menu > li:hover a span {
-    background-color: rgba(23, 97, 253, 0.1);
+    background-color: #041b37;
   }
   .topbar .navigation-menu > li .submenu {
     position: absolute;
@@ -8541,15 +8542,15 @@ ul.steppedprogress li:first-child:after {
 }
 
 .account-body.accountbg {
-  background-image: url("../images/auth-bg.png");
+  
   background-position: center center;
   background-size: cover;
   background-repeat: repeat;
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: #232b38;
 }
 
 .account-body .auth-header-box {
-  background-color: #0c213a;
+  background-color: #245086;
 }
 
 .account-body .auth-header-box h4 {

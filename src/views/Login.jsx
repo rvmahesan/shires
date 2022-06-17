@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 
 import LoadingBar from 'react-top-loading-bar'
-
+import {toast} from "react-toastify";
 const axios = require("axios").default;
 const cookies = new Cookies();
 
@@ -44,6 +44,24 @@ class Login extends Component {
     }
 
     validateLogin(event) {
+        if(this.state.userName==="" || this.state.userName.length <=4){
+            toast.error('Invalid user name', {
+                position: "top-right",
+                autoClose: 1800,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+             })
+            document.querySelector("#username").focus();
+            return;
+        }
+        if(this.state.userPassword==="" || this.state.userName.length <=4){
+            Swal.fire('Oops...', "Invalid user name", 'error');
+            document.querySelector("#username").focus();
+            return;
+        }
         var thisObj = this;
         var ptTimer = 0;
         var inter = setInterval(function () {
@@ -57,13 +75,8 @@ class Login extends Component {
             userPassword: this.state.userPassword,
         }).then(function (res) {
             if (res.data.statusResponse === true) {
-                //this.showAlert("br","success","Candidate created successsfully","pe-7s-check");
-                //alert("Candidate created successfully"); 
-                //setTimeout(()=>this.props.history.push("../admin/candidates"),  1200);
                 let d = new Date();
-                d.setTime(d.getTime() + (d.getMinutes() * 120 * 1000));
-                //var expiryDate = "expires="+ d.toUTCString();
-                //var expiryDate = new Date(Number(new Date()) + 315360000000);
+                d.setTime(d.getTime() + (1000*36000));
                 cookies.set('canAuthToken', res.data.token + "==" + res.data.usertype + "==" + res.data.username, { path: '/', expires: d });
                 cookies.set('c_csrftoken', res.data.token, { path: '/', expires: d });
                 window.sessionStorage.setItem("userId", res.data.userId);
@@ -103,9 +116,7 @@ class Login extends Component {
             progress={this.state.progressTimer}
             onLoaderFinished={0}
         /><form className="form-horizontal auth-form">
-            {window.location.pathname!=="/login"?<div className="row justify-center">Please login to continue</div>:""}
                 <div className="form-group mb-2">
-                    
                     <label htmlFor="username">Username</label> 
                     <div className="input-group">
                         <input type="text" className="form-control" onChange={this.handleInput} name="userName" id="username" placeholder="Enter username" />
@@ -119,10 +130,10 @@ class Login extends Component {
                 </div>
                 <div className="form-group row my-3">
                     <div className="col-sm-6">
-                        <div className="custom-control custom-switch switch-success">
+                       {/* <div className="custom-control custom-switch switch-success">
                             <input type="checkbox" className="custom-control-input" id="customSwitchSuccess" />
                             <label className="custom-control-label text-muted" htmlFor="customSwitchSuccess">Remember me</label>
-                        </div>
+                        </div>*/}
                     </div>
                     <div className="col-sm-6 text-right">
                         <a href="" className="text-muted font-13"><i className="dripicons-lock"></i> Forgot password?</a>

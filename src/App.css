@@ -1,5 +1,45 @@
+
+
 .App {
   text-align: center;
+}
+.menu-text{
+  padding-left:4px !important;
+  padding-right: 4px !important;
+}
+.iconbg{
+  border-radius: 3px;
+    background: #e2bd05;
+    color: white;
+    font-weight: bolder;
+    border: 1px solid #ccb22c;
+    padding:7px;
+}
+.dashboard-page-box{
+  border-bottom: 1px solid #5a87ba3b;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+
+.dropify-wrapper:hover {
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(135deg,#F6F6F6 25%,transparent 25%,transparent 50%,#F6F6F6 50%,#F6F6F6 75%,transparent 75%,transparent);
+  background-image: linear-gradient(-45deg,#F6F6F6 25%,transparent 25%,transparent 50%,#F6F6F6 50%,#F6F6F6 75%,transparent 75%,transparent);
+  -webkit-animation: stripes 2s linear infinite;
+  animation: stripes 2s linear infinite;
+  background-size: 30px 30px;
+  background-image: linear-gradient(-45deg, #f1f5fa 25%, transparent 25%, transparent 50%, #f1f5fa 50%, #f1f5fa 75%, transparent 75%, transparent);
+}
+
+
+.bradcum-text{
+  margin-left: 2.4rem;
+  font-size: 21px;
+  color:#20b07d;
+}
+.bradcum-small{
+  font-size:12px;
+  padding-left:6px;
 }
 .w-40{
   width:40%;
@@ -148,7 +188,7 @@
 
 
 .navbar-custom .topbar-nav li.show .nav-link {
-  background-color: #f1f5fa;
+  background-color: transparent;
   color: #303e67;
 }
 .navbar-brand {
@@ -1128,4 +1168,19 @@
 }
 .ql-container.ql-snow {
   border: 1px solid #ccc;
+}
+.center-load{
+  padding: 25px 0 0 0 ;
+  text-align: center;
+}
+
+.rightside-modal{
+  float:right !important;
+  margin: auto !important;
+  max-width: 50vw !important;
+  height: 85vh;
+}
+.rightside-modal .modal-body{
+  height: 90vh;
+  width: 50vw;
 }

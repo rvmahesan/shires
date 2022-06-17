@@ -5,7 +5,7 @@ import LoginForm from "../views/Login";
 import image from "../assets/images/loginImg.png";
 import loginImg from "../assets/images/loginImg.png"
 
-
+import { ToastContainer } from 'react-toastify';
 /*
 import AuthNavbar from "components/Navbars/AuthNavBar.jsx";
 import { Route, Switch } from "react-router-dom";
@@ -86,51 +86,60 @@ class Login extends Component {
         <div className="col-12 align-self-center">
           <div className="row">
             <div className="col-lg-5 mx-auto">
-              <div className="card my-shadow">
+              <div className="card my-shadow" style={{borderRadius:"6px",overflow:"hidden",border:"1px solid #245086"}}>
                 <div className="card-body p-0 auth-header-box">
-                  <div className="text-center p-3">
-                   
+                  <div className="text-center pl-3 pr-3 pb-3 pt-1">
                     <a href="index.html" className="logo logo-admin">
                       <img src={loginImg} height="85" alt="logo" className="auth-logo" />
                     </a>
-                    <h4 className="mt-3 mb-1 font-weight-semibold text-white font-18">Let's Get Started </h4>
-                    <p className="text-muted  mb-0">Sign in to continue.</p>
+                    <h4 className="mt-1 mb-1 font-weight-semibold text-white font-18">CANVENDOR </h4>
                   </div>
                 </div>
                 <div className="card-body p-0">
                   <ul className="nav-border nav nav-pills" role="tablist">
                     <li className="nav-item">
-                      <a className="nav-link active font-weight-semibold" data-toggle="tab" href="#LogIn_Tab" role="tab">Log In</a>
+                      <a className="nav-link active font-weight-semibold" >Sign in</a>
                     </li>
-
                   </ul>
 
                   <div className="tab-content">
                     <div className="tab-pane active p-3" id="LogIn_Tab" role="tabpanel">
                       <LoginForm />
-                      <div className="m-3 text-center text-muted">
-                        <p className="mb-0">@ERP</p>
+                         {/* <div className="m-3 text-center text-muted">
+                        <p className="mb-0"></p>
                       </div>
                       <div className="account-social">
-                        <h6 className="mb-3">Social</h6>
+                        <h6 className="mb-3">HMS</h6>
                       </div>
+                  
                       <div className="btn-group btn-block">
                         <button type="button" className="btn btn-sm btn-outline-secondary">Facebook</button>
                         <button type="button" className="btn btn-sm btn-outline-secondary">Twitter</button>
                         <button type="button" className="btn btn-sm btn-outline-secondary">Google</button>
-                      </div>
+                      </div>*/}
                     </div>
 
                   </div>
                 </div>
                 <div className="card-body bg-light-alt text-center">
-                  <span className="text-muted d-none d-sm-inline-block">Canvendor © 2021</span>
+                  <span className="text-muted d-none d-sm-inline-block">Canvendor © {new Date().getFullYear()}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+         />
     </div>);
   }
 }

@@ -1,46 +1,56 @@
-import Dashboard from "./views/Dashboard.jsx";
-import RecruiterDashboard from "./views/RecruiterDashboard";
-import VendorDashboard from "./views/VendorDashboard";
-import UserProfile from "./views/UserProfile.jsx";
-import AdminAttributes from "./views/adminAttributes.jsx";
-import AttributeDetails from "./views/AttributeDetails.jsx";
-import UsersListings from "./views/UsersListings.jsx";
-import clientsListings from "./views/ClientsListings.jsx";
-import VendorsListings from "./views/VendorsListings.jsx";
-import Candidates from "./views/Candidates.jsx";
-import emailTempalteManagement from "./views/MailTemplatesManagement.jsx"
-import createNewEmailTemplate from "./views/createNewEmailTemplate.jsx";
-import CreateNewClient from "./views/createNewClient.jsx";
-import CreateNewVendor from "./views/createNewVendor.jsx";
+import Dashboard from "./views/Misc/Dashboard";
 
-import CreateCandidate from "./views/CreateCandidate.jsx";
-import editCandidate from "./views/editCandidate";
-import ViewCandidateDetails from "./views/viewCandidateDetails";
-import SearchProfiles from "./views/SearchProfiles";
-import JobManagement from "./views/JobManagement";
-import createNewJob from "./views/CreateNewJob";
-import ViewJobDetails from "./views/viewJobDetails";
-import EditJobDetails from "./views/editJobDetails";
-import VendorRequirements from "./views/VendorRequirements";
-import VendorRequirmentDetails from "./views/vendors/viewJobDetails";
-import VendorCandidates from "./views/vendors/vendorCandidates"
-import JobApplicantDetails from "./views/vendors/JobApplicantDetails";
-import vendorOnboardedCandidates from "./views/vendors/vendorOnboardedCandidates";
-import onboardedCandidatesList from "./views/onboardedCandidatesList.jsx";
-import applicantSources from "./views/applicantSourcesList.jsx"
-import shortlistedCandidatesList from "./views/shortlistedCandidatesList.jsx";
-import candidateInteriews from "./views/candidateInteriews.jsx";
-import DepartmentDetails from "./views/DepartmentDetails.jsx";
-import TaxTermDetails from "./views/TaxTermDetails.jsx";
-import LanguageDetails from "./views/LanguageDetails.jsx";
-import IndustryDetails from "./views/IndustryDetails.jsx";
-import DegreeDetails from "./views/DegreeDetails.jsx";
-import WorkAuthorizationDetails from "./views/WorkAuthorizationDetails.jsx";
-//import Login from "views/Login.jsx";
-//import Typography from "views/Typography.jsx";
-//import Icons from "views/Icons.jsx";
-//import Maps from "views/Maps.jsx";
-//import Notifications from "views/Notifications.jsx";
+// import UserProfile from "./views/UserProfile.jsx";
+// import AdminAttributes from "./views/adminAttributes.jsx";
+// import AttributeDetails from "./views/AttributeDetails.jsx";
+
+
+// import emailTempalteManagement from "./views/MailTemplatesManagement.jsx"
+// import createNewEmailTemplate from "./views/createNewEmailTemplate.jsx";
+
+// import RecruiterDashboard from "./views/RecruiterDashboard";
+// import VendorDashboard from "./views/VendorDashboard";
+// import VendorRequirements from "./views/VendorRequirements";
+// import VendorRequirmentDetails from "./views/vendors/viewJobDetails";
+// import VendorCandidates from "./views/vendors/vendorCandidates"
+// import JobApplicantDetails from "./views/vendors/JobApplicantDetails";
+// import vendorOnboardedCandidates from "./views/vendors/vendorOnboardedCandidates";
+// import applicantSources from "./views/applicantSourcesList.jsx"
+
+// import onboardedCandidatesList from "./views/onboardedCandidatesList.jsx";
+
+// import shortlistedCandidatesList from "./views/shortlistedCandidatesList.jsx";
+//import candidateInteriews from "./views/candidateInteriews.jsx";
+
+import { DegreeDetails, DepartmentDetails,IndustryDetails,LanguageDetails,TaxTermDetails,TeamDetails,UserProfile,UsersListings,WorkAuthorizationDetails,UserRoleDetails,ApplicantSources, MailTemplatesManagement} from "./views/Settings"
+
+// import CreateCandidate from "./views/CreateCandidate.jsx";
+// import EditCandidate from "./views/editCandidate";
+// import ViewCandidateDetails from "./views/viewCandidateDetails";
+// import Candidates from "./views/Candidates.jsx";
+//import SearchProfiles from "./views/SearchProfiles";
+
+import { EditCandidate,Candidates,CreateCandidate,SearchProfiles,ViewCandidateDetails } from './views/Candidates';
+
+// import JobManagement from "./views/JobManagement";
+// import createNewJob from "./views/CreateNewJob";
+// import ViewJobDetails from "./views/viewJobDetails";
+// import EditJobDetails from "./views/editJobDetails";
+//,JobSubmitNewCandidate,JobSubmitOldCandidate
+import { JobManagement,ViewJobDetails,EditJobDetails,CreateNewJob } from './views/JobPostings';
+import {ClientsListings,CreateNewClient} from "./views/Clients";
+// import CreateNewClient from "./views/createNewClient.jsx";
+// import clientsListings from "./views/ClientsListings.jsx";
+
+//, ClientsListings,ViewClientDetails, EditClientDetails
+// import { CreateNewClient } from './views/Clients';
+// import VendorsListings from "./views/VendorsListings.jsx";
+//, ViewVendorDetails, EditVendorDetails
+//import CreateNewVendor from "./views/createNewVendor.jsx";
+
+import { VendorsListings,CreateNewVendor } from './views/Vendors';
+import CandidateSubmissions from "./views/Candidates/CandidateSubmissions";
+
 
 
 const dashboardRoutes = [
@@ -53,41 +63,6 @@ const dashboardRoutes = [
     layout: "/admin",
     fullPath:"/admin/dashboard",
     svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-home align-self-center hori-menu-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
-    submenu: []
-  },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: RecruiterDashboard,
-    visibility: "recruiter",
-    layout: "/recruiter",
-    fullPath:"/recruiter/dashboard",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-home align-self-center hori-menu-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
-    submenu: []
-  },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: VendorDashboard,
-    visibility: "vendor",
-    layout: "/vendor",
-    fullPath:"/vendor/dashboard",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-home align-self-center hori-menu-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
-    submenu: []
-  },
-
-
-  {
-    path: "/viewJobApplicationDetails",
-    name: "JobApplicantDetails",
-    icon: "",
-    redirect: true,
-    component: JobApplicantDetails,
-    visibility: "vendor",
-    layout: "/vendor", svgCode: '',
-    fullPath:"/vendor/viewJobApplicationDetails",
     submenu: []
   },
   {
@@ -120,7 +95,20 @@ const dashboardRoutes = [
         fullPath:"/admin/candidateInterviews",
         layout: "/admin"
       },
-
+      {
+        path: "/candidateSubmissions",
+        name: "Submission",
+        component: CandidateSubmissions,
+        fullPath:"/admin/candidateSubmissions",
+        layout: "/admin"
+      },
+      {
+        path: "/candidateSubmissions",
+        name: "Workers",
+        component: CandidateSubmissions,
+        fullPath:"/admin/candidateSubmissions",
+        layout: "/admin"
+      }
     ]
   },
   {
@@ -147,6 +135,7 @@ const dashboardRoutes = [
     fullPath:"/admin/candidateInterviews",
     submenu: []
   },
+  /*
   {
     path: "/onboardedCandidatesList",
     name: "Onboarded Candidates",
@@ -182,13 +171,13 @@ const dashboardRoutes = [
     component: candidateInteriews,
     fullPath:"/admin/candidateInterviews",
     layout: "/admin"
-  },
+  },*/
   {
     path: "/editCandidate",
     name: "Candidate Management",
     icon: "",
     redirect: true,
-    component: editCandidate,
+    component: EditCandidate,
     visibility: "admin",
     layout: "/admin", svgCode: '',
     fullPath:"/admin/candidateInterviews",
@@ -236,7 +225,7 @@ const dashboardRoutes = [
     path: "/ClientsListings",
     name: "Clients",
     icon: "ni ni ni-badge text-pink",
-    component: clientsListings,
+    component: ClientsListings,
     visibility: "admin",
     layout: "/admin", 
     fullPath:"/admin/ClientsListings",
@@ -337,17 +326,6 @@ const dashboardRoutes = [
   }
   ,
   {
-    path: "/createEmailTemplate",
-    name: "Add Template",
-    icon: "",
-    redirect: true,
-    component: createNewEmailTemplate,
-    visibility: "admin",
-    layout: "/admin", svgCode: '',
-    fullPath:"/admin/candidateInterviews",
-    submenu: []
-  },
-  {
     path: "/addNewClient",
     name: "Add Client",
     icon: "",
@@ -378,7 +356,7 @@ const dashboardRoutes = [
     name: "Add Job",
     icon: "",
     redirect: true,
-    component: createNewJob,
+    component: CreateNewJob,
     visibility: "admin",
     layout: "/admin", svgCode: '',
     fullPath:"/admin/candidateInterviews",
@@ -386,7 +364,7 @@ const dashboardRoutes = [
   }
   ,
   {
-    path: "/myprofile",
+    path: "/admin/myprofile",
     name: "My Profile",
     icon: "",
     redirect: true,
@@ -397,6 +375,19 @@ const dashboardRoutes = [
     submenu: []
   }
   ,
+  /*
+  {
+    path: "/createEmailTemplate",
+    name: "Add Template",
+    icon: "",
+    redirect: true,
+    component: createNewEmailTemplate,
+    visibility: "admin",
+    layout: "/admin", svgCode: '',
+    fullPath:"/admin/candidateInterviews",
+    submenu: []
+  },
+
   {
     path: "/configAttributes",
     name: "Configuration Attributes",
@@ -418,220 +409,8 @@ const dashboardRoutes = [
     layout: "/admin", svgCode: '',
     fullPath:"/admin/candidateInterviews",
     submenu: []
-  }
-  //Recruiter Menu
-  ,
-  {
-    path: "/candidates",
-    name: "Candidates",
-    icon: "ni ni-single-02 text-yellow",
-    component: Candidates,
-    visibility: "recruiter",
-    layout: "/recruiter",
-    fullPath:"/admin/candidateInterviews",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-grid align-self-center hori-menu-icon"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
-    submenu: [
-      {
-        path: "/usersListing",
-        name: "Users",
-        component: UsersListings,
-        fullPath:"/admin/candidateInterviews",
-        layout: "/admin"
-      },
-      {
-        path: "/manageMailTemplates",
-        name: "Email Templates",
-        component: emailTempalteManagement,
-        fullPath:"/admin/candidateInterviews",
-        layout: "/admin"
-      },
-    ]
-  },
-
-  {
-    path: "/createCandidate",
-    name: "Candidate Management",
-    icon: "",
-    redirect: true,
-    component: CreateCandidate,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    fullPath:"/admin/candidateInterviews",
-    submenu: []
-  },
-  {
-    path: "/editCandidate",
-    name: "Candidate Management",
-    icon: "",
-    redirect: true,
-    component: editCandidate,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    fullPath:"",
-    submenu: []
-  },
-  {
-    path: "/viewCandidateDetails",
-    name: "Candidate Management",
-    icon: "",
-    redirect: true,
-    component: ViewCandidateDetails,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    fullPath:"",
-    submenu: []
-  },
-  //viewJobDetails
-  {
-    path: "/viewJobDetails",
-    name: "Job Details",
-    icon: "",
-    redirect: true,
-    component: ViewJobDetails,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    fullPath:"",
-    submenu: []
-  },
-  {
-    path: "/editJobDetails",
-    name: "Job Details",
-    icon: "",
-    redirect: true,
-    component: EditJobDetails,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    fullPath:"",
-    submenu: []
-  },
-
-
-  {
-    path: "/searchProfile",
-    name: "Search Profile",
-    icon: "ni ni-planet text-orange",
-    component: SearchProfiles,
-    visibility: "recruiter",
-    fullPath:"",
-    layout: "/recruiter", svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-file-plus align-self-center hori-menu-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
-    submenu: []
-  },
-  {
-    path: "/manageJobs",
-    name: "Job Management",
-    icon: "ni ni-spaceship text-blue",
-    component: JobManagement,
-    visibility: "recruiter",
-    layout: "/recruiter",
-    fullPath:"recruiter/createNewJob",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-box align-self-center hori-menu-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>',
-    submenu: []
-  }
-  ,
-  {
-    path: "/manageMailTemplates",
-    name: "Email Templates",
-    icon: "ni ni-archive-2 text-green",
-    component: emailTempalteManagement,
-    visibility: "recruiter",
-    layout: "/recruiter",
-    fullPath:"recruiter/manageMailTemplates",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-file-plus align-self-center hori-menu-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
-    submenu: []
-  },
-  {
-    path: "/createEmailTemplate",
-    name: "Add Template",
-    fullPath:"recruiter/createEmailTemplate",
-    icon: "",
-    redirect: true,
-    component: createNewEmailTemplate,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    submenu: []
-  },
-  {
-    path: "/createNewJob",
-    name: "Add Job",
-    icon: "",
-    fullPath:"admin/createNewJob",
-    redirect: true,
-    component: createNewJob,
-    visibility: "recruiter",
-    layout: "/recruiter", svgCode: '',
-    submenu: []
-  }
-  ,
-  {
-    path: "/myprofile",
-    name: "My Profile",
-    icon: "",
-    redirect: true,
-    component: UserProfile,
-    fullPath:"",
-    visibility: "recruiter",
-    layout: "/admin",
-    svgCode: '',
-    submenu: []
-  }
-  ,
-  {
-    path: "/vendorRequirmentsList",
-    name: "Requirements",
-    icon: "ni ni-archive-2 text-green",
-    component:VendorRequirements,
-    visibility:"vendor",
-    fullPath:"vendor/vendorRequirmentsList",
-    layout: "/vendor",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-file-plus align-self-center hori-menu-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
-    submenu: []
-  },
-  {
-    path: "/viewJobDetails",
-    name: "Job Details",
-    icon: "",
-    fullPath:"vendor/viewJobDetails",
-    redirect: true,
-    component: VendorRequirmentDetails,
-    visibility: "vendor",
-    layout: "/vendor", svgCode: '',
-    submenu: []
-  },
-  {
-    path: "/vendorCandidatesList",
-    name: "Candidates",
-    fullPath:"vendor/vendorCandidatesList",
-    icon: "ni ni-archive-2 text-green",
-    component: VendorCandidates,
-    visibility: "vendor",
-    layout: "/vendor",
-    svgCode: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-file-plus align-self-center hori-menu-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
-    submenu: []
-  },
-  //vendorOnboardedCandidatesList
-  {
-    path: "/vendorOnboardedCandidatesList",
-    name: "Job Details",
-    fullPath:"vendor/vendorOnboardedCandidatesList",
-    icon: "",
-    redirect: true,
-    component: vendorOnboardedCandidates,
-    visibility: "vendor",
-    layout: "/vendor", svgCode: '',
-    submenu: []
-  },
-  {
-    path: "/shortlistedCandidatesList",
-    name: "Shortlisted Candidates",
-    icon: "",
-    redirect: true,
-    fullPath:"vendor/shortlistedCandidatesList",
-    component: shortlistedCandidatesList,
-    visibility: "vendor",
-    layout: "/vendor", svgCode: '',
-    submenu: []
-  },
-
+  }*/
+  
 ];
 
 export default dashboardRoutes;

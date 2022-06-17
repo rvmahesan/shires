@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { Spinner } from 'reactstrap';
 
@@ -5,7 +6,8 @@ class IFrame extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        loading: true
+        loading: true,
+        pageContents:null,
       };
       document.body.style.cursor='wait';
     }
@@ -15,25 +17,30 @@ class IFrame extends React.Component {
       });
       document.body.style.cursor='default';
     };
+  loadContents = ()=>{
+    axios.get(this.props.src)
+    .then(res=>res.data)
+    .then(pagedata=>{
+      document.body.style.cursor='default';
+      this.setState({pageContents:pagedata,loading:false});
+    })
+  }
+  componentDidMount(){
+    this.loadContents();
+  }
   render() {
       return (
         <div >
           {this.state.loading? (<>
-            <Spinner style={{ width: '5rem', height: '5rem',marginTop:'8rem',marginLeft:'16rem'  }} />
+
+          <div className='center-load' >
+            <Spinner style={{ width: '5rem', height: '5rem',marginTop:"30%"}} />
             <br/>
-            <small  style={{ width: '5rem', height: '5rem',marginTop:'8rem',marginLeft:'15.3rem'  }} >generating preview</small></>
-          ) : null}
-        <div className="embed-responsive embed-responsive-16by9 res_contents">
-          <iframe
-            title=""
-            src={this.props.src}
-            width="100%"
-            height="700"
-            onLoad={this.hideSpinner}
-            frameBorder="0"
-            marginHeight="0"
-            marginWidth="0"
-          /></div>
+            <small  style={{ width: '5rem', height: '5rem' }} >generating preview</small></div></>
+          ) : 
+        <div className="embed-responsive embed-responsive-16by9 res_contents" style={{height:"88vh"}} dangerouslySetInnerHTML={{__html:this.state.pageContents}}>
+      
+          </div>}
         </div>
       );
     }
